@@ -153,7 +153,7 @@ const logoutBtn = document.getElementById("adminLogout");
 if (logoutBtn) {
   logoutBtn.addEventListener("click", async () => {
     await signOut(auth);
-    window.location.href = "admin-login.html";
+    window.location.href = "./";   // or "/admin/"
   });
 }
 
