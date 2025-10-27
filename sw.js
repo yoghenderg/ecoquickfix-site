@@ -1,6 +1,6 @@
-// ---- EcoQuickFix Service Worker (v1) ----
-const STATIC_CACHE = "ecoqf-static-v1";
-const RUNTIME_CACHE = "ecoqf-runtime-v1";
+// ---- EcoQuickFix Service Worker (v2) ----
+const STATIC_CACHE = "ecoqf-static-v2";
+const RUNTIME_CACHE = "ecoqf-runtime-v2";
 
 const STATIC_ASSETS = [
   "/",                 // home
@@ -8,7 +8,12 @@ const STATIC_ASSETS = [
   "/offline.html",
   // Add your real static files if you want them precached:
   // "/assets/css/styles.css",
-  // "/assets/js/user.js",
+  // NOTE: Do NOT precache JS app logic (e.g., /assets/js/user.js) to avoid stale logic.
+  // It will be fetched network-first below.
+  // "/assets/img/client-logo.png",
+  "/assets/icons/icon-192.png",
+  "/assets/icons/icon-512.png",
+  "/assets/icons/maskable-512.png"
 ];
 
 self.addEventListener("install", (e) => {
@@ -34,33 +39,35 @@ self.addEventListener("fetch", (e) => {
   // Only GET
   if (req.method !== "GET") return;
 
-  // HARD-IGNORE admin so PWA doesn't touch it
   const url = new URL(req.url);
+
+  // HARD-IGNORE admin so PWA doesn't touch it
   if (url.pathname.startsWith("/admin")) return;
 
-  // HTML: network-first (fresh content, offline fallback)
+  // Determine request type
   const accept = req.headers.get("accept") || "";
   const isHTML = accept.includes("text/html");
-  if (isHTML) {
+  const isCode = req.destination === "script" || req.destination === "style";
+
+  // Network-first for HTML and for JS/CSS (keeps logic/styles fresh)
+  if (isHTML || isCode) {
     e.respondWith(
-      fetch(req)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(RUNTIME_CACHE).then((c) => c.put(req, copy));
-          return res;
-        })
-        .catch(() => caches.match(req).then(r => r || caches.match("/offline.html")))
+      fetch(req).then(res => {
+        const copy = res.clone();
+        caches.open(RUNTIME_CACHE).then(c => c.put(req, copy));
+        return res;
+      }).catch(() => caches.match(req).then(r => r || (isHTML ? caches.match("/offline.html") : undefined)))
     );
     return;
   }
 
-  // Assets: cache-first
+  // Everything else (images/fonts/etc): cache-first for speed
   e.respondWith(
     caches.match(req).then(cached => {
       if (cached) return cached;
-      return fetch(req).then((res) => {
+      return fetch(req).then(res => {
         const copy = res.clone();
-        caches.open(RUNTIME_CACHE).then((c) => c.put(req, copy));
+        caches.open(RUNTIME_CACHE).then(c => c.put(req, copy));
         return res;
       });
     })
