@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ECO QUICK FIX</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary': '#F59E0B',
+            'primary-dark': '#D97706',
+            'primary-light': '#FCD34D',
+            'accent': '#FB923C',
+            'neutral-warm': '#F9FAFB'
+          }
+        }
+      }
+    }
+  </script>
+
+</head>
+  <!-- External CSS -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  <style>.service-card img{display:block; object-fit:contain;} .service-card .w-12{overflow:hidden;}</style>
+</head>
+<body class="min-h-screen">
+
+  <!-- Login Screen -->
+  <div id="loginScreen" class="hidden min-h-screen relative flex items-center justify-center p-4">
+    <div class="page-bg"></div>
+    <div class="glass-login rounded-15 shadow-xl p-8 w-full max-w-md card-shadow relative z-10">
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 bg-primary rounded-lg mx-auto mb-4 flex items-center justify-center">
+          <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900 mb-2">HandyFix</h1>
+        <p class="text-gray-600">Professional Home Services</p>
+      </div>
+
+      <form id="loginForm" class="space-y-6">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+          <input type="email" id="loginEmail" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Enter your email" required>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+          <input type="password" id="loginPassword" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors professional-shadow">
+          Sign In
+        </button>
+
+        <div class="text-center text-sm text-gray-600 mt-4 p-3 bg-gray-50 rounded-lg border">
+          <strong>Demo Credentials:</strong><br>
+          Email: test@gmail.com<br>
+          Password: ecoworld
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div id="mainApp" class="hidden min-h-screen">
+  <!-- Navigation -->
+  <nav class="glass rounded-15 shadow-sm border-b fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center space-x-3">
+          <img src="assets/img/client-logo.png" alt="Client Logo" class="nav-logo">
+        </div>
+        <div class="flex space-x-1">
+          <button id="logoutBtn" class="hidden px-4 py-2 text-gray-600 hover:text-gray-900 transition-colors ml-4">
+            Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Home Page -->
+  <div id="homePage" class="relative min-h-screen">
+    <div class="page-bg booking-bg"></div>
+    <div class="max-w-4xl mx-auto p-6 relative z-10">
+      <div class="text-center mb-8">
+        <h1 class="text-2xl sm:text-4xl font-bold text-[#dd5900] mb-4">
+          <span class="block sm:inline">Book Your</span>
+          <span class="block sm:inline">Handyman Services</span>
+        </h1>
+        <p class="text-lg font-medium text-[#191c1b]">Professional home repairs and maintenance at your doorstep</p>
+      </div>
+      <div class="glass rounded-15 glass-depth p-8">
+        <form id="bookingForm" class="space-y-6">
+        <!-- Service type, calendar, time slots, additional details -->
+        <!-- (same as original booking form structure) -->
+                 <!-- Resident details -->
+        <div>
+            <label class="block text-lg font-semibold text-[#dd5900] mb-4">Your Details</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                <input type="text" id="residentName" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter your full name" required maxlength="30">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                <input type="tel" id="residentPhone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="e.g. 012-3456789" required maxlength="12">
+              </div>
+            </div>
+            <div class="mt-4">
+              <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+              <input type="text" id="residentAddress" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter your address" required maxlength="50">
+            </div>
+          </div>
+        <div>
+          <label class="block text-lg font-semibold text-[#dd5900] mb-4">Select Service Type</label>
+          <!-- Mobile dropdown (sm:hidden) -->
+          <div class="sm:hidden mb-4">
+            <button type="button" id="mobileServiceDropdownBtn" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-white flex justify-between items-center">
+              <span id="mobileServiceDropdownBtnText">Select services</span>
+              <svg class="w-5 h-5 ml-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div id="mobileServiceDropdown" class="absolute left-0 right-0 z-30 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg p-3 hidden">
+              <label class="flex items-center space-x-2 py-2">
+                <input type="checkbox" class="service-checkbox" value="Electrical">
+                <span>Electrical</span>
+              </label>
+              <label class="flex items-center space-x-2 py-2">
+                <input type="checkbox" class="service-checkbox" value="Plumbing">
+                <span>Plumbing</span>
+              </label>
+              <label class="flex items-center space-x-2 py-2">
+                <input type="checkbox" class="service-checkbox" value="Carpentry">
+                <span>Carpentry</span>
+              </label>
+              <label class="flex items-center space-x-2 py-2">
+                <input type="checkbox" class="service-checkbox" value="Painting & minor wall repairs">
+                <span>Painting & minor wall repairs</span>
+              </label>
+              <label class="flex items-center space-x-2 py-2">
+                <input type="checkbox" class="service-checkbox" value="Air-cond servicing & maintenance">
+                <span>Air-cond servicing & maintenance</span>
+              </label>
+              <label class="flex items-center space-x-2 py-2">
+                <input type="checkbox" class="service-checkbox" value="Gardening & minor landscaping">
+                <span>Gardening & minor landscaping</span>
+              </label>
+              <label class="flex items-center space-x-2 py-2">
+                <input type="checkbox" class="service-checkbox" value="Home Cleaning & Sanitising">
+                <span>Home Cleaning & Sanitising</span>
+              </label>
+              <label class="flex items-center space-x-2 py-2">
+                <input type="checkbox" class="service-checkbox" value="Roof Leaking">
+                <span>Roof Leaking</span>
+              </label>
+              <label class="flex items-center space-x-2 py-2">
+                <input type="checkbox" class="service-checkbox" value="Others">
+                <span>Others</span>
+              </label>
+              <label class="flex items-center space-x-2 py-2">
+                <input type="checkbox" class="service-checkbox" value="Moving & Small Transport Jobs">
+                <span>Moving & Small Transport Jobs</span>
+              </label>
+            </div>
+          </div>
+          <!-- Desktop grid (hidden sm:grid) -->
+          <div class="hidden sm:grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="service-card service-option p-5 glass border rounded-15 cursor-pointer professional-shadow" data-service="Electrical">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
+                  <img src="assets/icons/electrical.png" alt="Electrical" class="w-10 h-10">
+                </div>
+                <span class="font-medium text-gray-900">Electrical</span>
+              </div>
+            </div>
+            <div class="service-card service-option p-5 glass border rounded-15 cursor-pointer professional-shadow" data-service="Plumbing">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <img src="assets/icons/plumbing.png" alt="Electrical" class="w-10 h-10">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h2l3 7 4-14 3 7h2"></path>
+                </div>
+                <span class="font-medium text-gray-900">Plumbing</span>
+              </div>
+            </div>
+            <div class="service-card service-option p-5 glass border rounded-15 cursor-pointer professional-shadow" data-service="Carpentry">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                  <img src="assets/icons/carpentry.png" alt="Electrical" class="w-10 h-10">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 17v-2a4 4 0 014-4h8a4 4 0 014 4v2"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12v9"></path>
+                </div>
+                <span class="font-medium text-gray-900">Carpentry</span>
+              </div>
+            </div>
+            <div class="service-card service-option p-5 glass border rounded-15 cursor-pointer professional-shadow" data-service="Painting & minor wall repairs">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                  <img src="assets/icons/painting.png" alt="Electrical" class="w-10 h-10">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 12h16"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16h16"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16"></path>
+                </div>
+                <span class="font-medium text-gray-900">Painting & minor wall repairs</span>
+              </div>
+            </div>
+            <div class="service-card service-option p-5 glass border rounded-15 cursor-pointer professional-shadow" data-service="Air-cond servicing & maintenance">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center">
+                  <img src="assets/icons/aircond.png" alt="Electrical" class="w-10 h-10">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364l-1.414-1.414M7.05 7.05L5.636 5.636m12.728 0l-1.414 1.414M7.05 16.95l-1.414 1.414"></path>
+                </div>
+                <span class="font-medium text-gray-900">Air-cond servicing & maintenance</span>
+              </div>
+            </div>
+            <div class="service-card service-option p-5 glass border rounded-15 cursor-pointer professional-shadow" data-service="Gardening & minor landscaping">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                  <img src="assets/icons/gardening.png" alt="Electrical" class="w-10 h-10">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20l9-5-9-5-9 5 9 5z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12V4"></path>
+                </div>
+                <span class="font-medium text-gray-900">Gardening & minor landscaping</span>
+              </div>
+            </div>
+            <div class="service-card service-option p-5 glass border rounded-15 cursor-pointer professional-shadow" data-service="Home Cleaning & Sanitising">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center">
+                  <img src="assets/icons/cleaning.png" alt="" aria-hidden="true" class="w-10 h-10" onerror="this.onerror=null; this.src='assets/img/logo.png';">
+                </div>
+                <span class="font-medium text-gray-900">Home Cleaning & Sanitising</span>
+              </div>
+            </div>
+            <!-- Insert Roof Leaking and Others here -->
+            <div class="service-card service-option p-5 glass border rounded-15 cursor-pointer professional-shadow" data-service="Roof Leaking">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                  <img src="assets/icons/roof.png" alt="Roof Leaking" class="w-10 h-10">
+                </div>
+                <span class="font-medium text-gray-900">Roof Leaking</span>
+              </div>
+            </div>
+            <div class="service-card service-option p-5 glass border rounded-15 cursor-pointer professional-shadow" data-service="Others">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+                  <img src="assets/icons/others.png" alt="Others" class="w-10 h-10">
+                </div>
+                <span class="font-medium text-gray-900">Others</span>
+              </div>
+            </div>
+            <!-- Moving & Small Transport Jobs -->
+            <div class="service-card service-option p-5 glass border rounded-15 cursor-pointer professional-shadow" data-service="Moving & Small Transport Jobs">
+              <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+                  <img src="assets/icons/moving.png" alt="" aria-hidden="true" class="w-10 h-10" onerror="this.onerror=null; this.src='assets/img/logo.png';">
+                </div>
+                <span class="font-medium text-gray-900">Moving & Small Transport Jobs</span>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" id="selectedServices" required>
+        </div>
+        <div class="space-y-6">
+          <div>
+            <label class="block text-lg font-semibold text-[#dd5900] mb-4">Select Date</label>
+            <div id="calendarContainer" class="glass border rounded-15 p-4 professional-shadow">
+              <div class="flex justify-between items-center mb-4">
+                <button type="button" id="prevMonth" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                  </svg>
+                </button>
+                <h3 id="currentMonth" class="text-lg font-semibold text-gray-900"></h3>
+                <button type="button" id="nextMonth" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                </button>
+              </div>
+              <div class="grid grid-cols-7 gap-1 mb-2">
+                <div class="text-center text-sm font-medium text-gray-500 py-2">Sun</div>
+                <div class="text-center text-sm font-medium text-gray-500 py-2">Mon</div>
+                <div class="text-center text-sm font-medium text-gray-500 py-2">Tue</div>
+                <div class="text-center text-sm font-medium text-gray-500 py-2">Wed</div>
+                <div class="text-center text-sm font-medium text-gray-500 py-2">Thu</div>
+                <div class="text-center text-sm font-medium text-gray-500 py-2">Fri</div>
+                <div class="text-center text-sm font-medium text-gray-500 py-2">Sat</div>
+              </div>
+              <div id="calendarDays" class="calendar-grid"></div>
+            </div>
+            <input type="hidden" id="selectedDate" required>
+          </div>
+          <div>
+            <label class="block text-lg font-semibold text-[#dd5900] mb-4">Available Time Slots</label>
+            <!-- Mobile-only dropdown for time slots -->
+            <select id="timeSelect" class="w-full px-4 py-3 rounded-15 border border-gray-300 bg-white focus:ring-2 focus:ring-primary focus:border-transparent sm:hidden mb-4">
+              <option value="" selected disabled>-- Select a time --</option>
+            </select>
+            <div class="hidden sm:grid">
+              <div id="timeSlots" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+            </div>
+            <input type="hidden" id="selectedTime" required>
+          </div>
+        </div>
+        <div>
+          <label class="block text-lg font-semibold text-[#dd5900] mb-3">Additional Details (Optional)</label>
+          <textarea id="additionalDetails" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" rows="3" placeholder="Not more than 60 characters"></textarea>
+        </div>
+          <button type="submit" class="w-full bg-primary text-white py-4 rounded-lg font-semibold text-lg hover:bg-primary-dark transition-colors professional-shadow">
+            Continue to Summary
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<!-- Orders Page -->
+<div id="ordersPage" class="hidden relative min-h-screen">
+    <div class="page-bg"></div>
+    <div class="max-w-6xl mx-auto p-6 relative z-10">
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">My Orders</h1>
+        <p class="text-gray-600">Track and manage your service appointments</p>
+      </div>
+    
+      <!-- One big glass container that holds list + pagination -->
+      <div id="ordersContainer" class="glass rounded-15 glass-depth p-6">
+        <div id="ordersList" class="space-y-4"></div>
+    
+        <!-- empty state stays inside the same container -->
+        <div id="noOrders" class="text-center py-16 hidden">
+          <div class="w-24 h-24 bg-gray-100 rounded-full mx-auto mb-6 flex items-center justify-center">
+            <svg class="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">No orders yet</h3>
+          <p class="text-gray-500 mb-6">Book your first handyman service to see it here</p>
+          <button onclick="showHome()" class="bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors professional-shadow">
+            Book a Service
+          </button>
+        </div>
+    
+        <!-- Pagination controls -->
+        <div id="ordersPagination" class="flex items-center justify-between mt-6">
+          <button id="ordersPrev" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">Prev</button>
+          <span id="ordersPageInfo" class="text-sm text-gray-600"></span>
+          <button id="ordersNext" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals -->
+  <div id="summaryModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="glass rounded-15 shadow-2xl max-w-md w-full p-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Booking Summary</h2>
+      <div class="space-y-4 mb-6">
+        <div class="flex justify-between items-center py-2 summary-divider">
+            <span class="font-medium text-gray-600">Name:</span>
+            <span id="summaryName" class="font-semibold"></span>
+          </div>
+          <div class="flex justify-between items-center py-2 summary-divider">
+            <span class="font-medium text-gray-600">Phone:</span>
+            <span id="summaryPhone" class="font-semibold"></span>
+          </div>
+          <div class="flex justify-between items-center py-2 summary-divider">
+            <span class="font-medium text-gray-600">Address:</span>
+            <span id="summaryAddress" class="font-semibold"></span>
+          </div>
+        <div class="flex justify-between items-center py-2 summary-divider">
+            <span class="font-medium text-gray-600">Service:</span>
+            <span id="summaryService" class="font-semibold"></span>
+          </div>
+        <div class="flex justify-between items-center py-2 summary-divider">
+            <span class="font-medium text-gray-600">Date:</span>
+            <span id="summaryDate" class="font-semibold"></span>
+          </div>
+          <div class="flex justify-between items-center py-2 summary-divider">
+            <span class="font-medium text-gray-600">Time:</span>
+            <span id="summaryTime" class="font-semibold"></span>
+          </div>
+          <div class="flex justify-between items-center py-2 summary-divider">
+            <span class="font-medium text-gray-600">Details:</span>
+            <span id="summaryDetails" class="font-semibold"></span>
+          </div>
+      </div>
+      <div class="flex space-x-4">
+        <button id="cancelBooking" class="flex-1 px-4 py-3 btn-cancel">
+            Cancel
+          </button>
+        <button id="confirmBooking" class="flex-1 px-4 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors professional-shadow">
+          Confirm Booking
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="orderModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="glass rounded-15 shadow-2xl max-w-md w-full p-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Order Details</h2>
+  
+      <div id="orderDetails" class="space-y-4">
+        <div class="flex justify-between items-center py-2 summary-divider">
+          <span class="font-medium text-gray-600">Order ID:</span>
+          <span id="od-id" class="font-semibold"></span>
+        </div>
+        <div class="flex justify-between items-center py-2 summary-divider">
+          <span class="font-medium text-gray-600">Service:</span>
+          <span id="od-service" class="font-semibold"></span>
+        </div>
+        <div class="flex justify-between items-center py-2 summary-divider">
+          <span class="font-medium text-gray-600">Date:</span>
+          <span id="od-date" class="font-semibold"></span>
+        </div>
+        <div class="flex justify-between items-center py-2 summary-divider">
+          <span class="font-medium text-gray-600">Time:</span>
+          <span id="od-time" class="font-semibold"></span>
+        </div>
+        <div class="flex justify-between items-center py-2 summary-divider">
+          <span class="font-medium text-gray-600">Booked on:</span>
+          <span id="od-booked" class="font-semibold"></span>
+        </div>
+        <div class="flex justify-between items-center py-2 summary-divider">
+          <span class="font-medium text-gray-600">Status:</span>
+          <span id="od-status" class="font-semibold"></span>
+        </div>
+      </div>
+  
+      <div class="flex mt-6">
+        <button id="closeOrderModal" class="flex-1 px-4 py-3 btn-cancel">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="successModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="glass rounded-15 shadow-2xl max-w-md w-full p-8 text-center">
+      <div class="w-16 h-16 bg-green-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+      <h2 class="text-2xl font-bold text-gray-900 mb-4">Booking Confirmed!</h2>
+      <p class="text-gray-600 mb-6">Your handyman appointment has been successfully booked.</p>
+      <button id="closeSuccessModal" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary-dark transition-colors professional-shadow">
+        Continue
+      </button>
+    </div>
+  </div>
+</div>
+
+  <!-- External JS -->
+  <script type="module" src="assets/js/user.js"></script>
+</body>
+</html>
