@@ -1,0 +1,422 @@
+.professional-shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  .card-shadow {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  .calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+  }
+  .time-slot { transition: all 0.2s ease-in-out; }
+  .time-slot:hover:not(.disabled) { transform: translateY(-1px); }
+
+/* Solid white base for all enabled time slots */
+.time-slot{
+  background:#fff;
+  color:#111827;              /* text-gray-900 */
+  border:1px solid #e5e7eb;   /* border-gray-200 */
+  border-radius:12px;
+}
+
+/* Selected slot = primary */
+.time-slot.selected{
+  background:#dd5900;         /* primary */
+  color:#fff;
+  border-color:#dd5900;
+}
+
+/* Booked/disabled only */
+.time-slot.disabled,
+.time-slot:disabled{
+  background:#f3f4f6;         /* gray-100 */
+  color:#9ca3af;              /* gray-400 */
+  border-color:#e5e7eb;
+  cursor:not-allowed;
+}
+
+/* Hover: orange border only (no fill) for enabled, unselected time slots */
+.time-slot:not(.selected):not(.disabled):hover {
+  border-color: #dd5900; /* match calendar hover + brand orange */
+  background: #fff;      /* keep solid white background */
+  color: inherit;        /* keep current text color */
+}
+
+/* Keyboard focus mirror of hover for accessibility */
+.time-slot:not(.selected):not(.disabled):focus-visible {
+  outline: none;
+  border-color: #dd5900;
+}
+  
+  .service-card {
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  .service-card:hover {
+    border-color: #dd5900;
+    transform: translateY(-2px);
+  }
+  .service-card.selected {
+    border: 3px solid transparent;
+    border-color: #dd5900;
+    background-color: #ffd1b3;
+  }
+  /* Control service box text size */
+.service-card span {
+  font-size: 0.95rem;   /* slightly smaller than default (≈15px) */
+  line-height: 1.4;     /* improve readability */
+}
+  
+  /* Glass UI + rounded-15 + gradient background */
+  .rounded-15 { border-radius: 15px; }
+  /* Remove rounded corners on the top navbar even if .rounded-15 is present */
+  nav.rounded-15{
+    border-radius: 0 !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+  }
+  .glass {
+    background: rgba(255, 255, 255, 0.342);
+    border: 1px solid rgba(255, 252, 250, 0.5);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    backdrop-filter: blur(14px) saturate(120%);
+    box-shadow: 0 8px 24px rgba(47, 46, 41, 0.08);
+  }
+  /* Mobile services dropdown glass style */
+  #serviceSelect {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255,255,255,0.5);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    backdrop-filter: blur(14px) saturate(120%);
+    box-shadow: 0 8px 24px rgba(47, 46, 41, 0.08);
+    border-radius: 15px;
+  }
+  /* Mobile service dropdown glass effect */
+  #mobileServiceDropdown {
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    backdrop-filter: blur(14px) saturate(120%);
+    box-shadow: 0 8px 24px rgba(47, 46, 41, 0.08);
+    border-radius: 15px;
+  }
+  .glass-login {
+    background: rgba(255, 255, 255, 0.611); /* less transparent */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgb(0, 0, 0); /* 👈 depth shadow */
+  }
+  .summary-divider {
+    border-bottom: 1px solid rgba(0,0,0,0.15); /* slightly darker, more visible */
+  }
+  .btn-cancel {
+    background-color: #DC143C;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: opacity 0.2s ease-in-out;
+  }
+  .btn-cancel:hover {
+    opacity: 0.9;
+  }
+  
+/* === Home page only background image (full screen) === */
+#mainApp { position: relative; z-index: 0; }
+
+/* === Active Page Background === */
+#homePage {
+  background: url('../img/home-bg.jpg') no-repeat center center;
+  background-size: cover;
+  min-height: 100vh;
+  background-attachment: fixed;
+}
+
+/* === Hidden Pages (kept for future use) === */
+#ordersPage .page-bg {
+  background-image: url('../img/orders-bg.jpg');
+}
+#loginScreen .page-bg {
+  background-image: url('../img/login-bg.jpg');
+}
+
+#homePage > *,
+#ordersPage > *,
+#loginScreen > * {
+  position: relative;
+  z-index: 1;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+/* Login-only glass card, with depth */
+#loginScreen .glass-login {
+    background: rgba(255, 255, 255, 0.611);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.552); /* subtle depth */
+    border-radius: 15px; /* keeps shadow nicely rounded */
+}
+ 
+
+/* --- Fixed height for orders list: always space for 4 cards --- */
+:root{
+  --order-card-h: 136px;   /* adjust to match your card's visual height */
+  --order-gap: 1rem;       /* matches space-y-4 vertical gap */
+}
+
+/* The list keeps a constant height equivalent to 4 cards + 3 gaps */
+#ordersList{
+  height: calc(var(--order-card-h) * 4 + var(--order-gap) * 3);
+  min-height: calc(var(--order-card-h) * 4 + var(--order-gap) * 3);
+  max-height: calc(var(--order-card-h) * 4 + var(--order-gap) * 3);
+  overflow: hidden; /* no internal scrolling */
+}
+
+/* Ensure every order card reserves at least one row height */
+.order-card{
+  min-height: var(--order-card-h);
+}
+
+/* Invisible spacers to keep the list height stable on short pages */
+.order-spacer{
+  min-height: var(--order-card-h);
+  visibility: hidden;  /* occupies space, not visible */
+}
+
+/* Prevent scrolling inside the glass container; rely on pagination only */
+/* Remove shadow from order cards inside the orders container */
+#ordersContainer .order-card {
+  box-shadow: none !important;
+  background: rgba(255, 255, 255, 0.75); /* keep glass look without shadow */
+  border: 1px solid rgba(46, 46, 46, 0.077);
+}
+
+
+/* Reusable deep glass shadow to match login depth */
+.glass-depth{
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* Ensure home page card uses the same deep shadow */
+#homePage .glass-depth{
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.412) !important;
+}
+input:focus, textarea:focus {
+  /* Make focus color match service-card orange */
+  --tw-ring-color: #dd5900;            /* override Tailwind ring color */
+  border-color: #dd5900 !important;    /* border stroke */
+  box-shadow: 0 0 0 1px #dd5900 !important; /* thin outline to match */
+  outline: none;
+}
+
+/* Ensure the three booking inputs always use the same orange on focus */
+#residentName:focus,
+#residentPhone:focus,
+#residentAddress:focus {
+  --tw-ring-color: #dd5900;
+  border-color: #dd5900 !important;
+  box-shadow: 0 0 0 1px #dd5900 !important;
+}
+
+/* Navbar logo sizing */
+.nav-logo {
+  height: 127px;       /* fixed logo height */
+  max-height: 38rem;   /* ensures it fits within navbar */
+  object-fit: contain;
+}
+
+/* --- Navbar alignment helpers (logo left on desktop, centered on mobile) --- */
+nav .nav-logo{
+  display: block;
+  margin-right: auto;  /* push logo to the left inside a flex navbar */
+}
+
+@media (max-width: 640px){
+  nav{
+    display: flex;
+    justify-content: center; /* center content inside nav */
+  }
+  nav .nav-logo{
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* === Navbar: keep logo further left on wide screens === */
+@media (min-width: 1280px){
+  /* The inner wrapper in your nav uses Tailwind's max-w-7xl mx-auto.
+     On ultra-wide screens this centers the whole block, making the logo
+     look too far to the right. These overrides make the nav container
+     full-bleed while keeping its internal padding. */
+  nav .max-w-7xl{
+    max-width: 100% !important;
+  }
+  nav .mx-auto{
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* === Custom Scrollbar Styling (Apple-style thin, rounded) === */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent !important;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  border: 2px solid rgba(255, 255, 255, 0.3); /* subtle glass-like edge */
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+}
+
+/* Prevent forced white background behind scrollbars */
+html, body {
+  overflow-y: overlay;
+}
+/* Reserve space for the fixed navbar so content doesn't hide underneath */
+#homePage,
+#ordersPage{
+  padding-top: 5.5rem; /* ~88px, adjust if you change navbar height */
+}
+
+/* === Calendar day state colours === */
+#calendarDays .calendar-day{
+  border-radius: 12px;
+}
+#calendarDays .calendar-day.selected{
+  background:#dd5900 !important;  /* selected date colour */
+  color:#ffffff !important;
+}
+#calendarDays .calendar-day.today{
+  background:#f28f45 !important;  /* lighter shade for 'today' */
+  color:#ffffff !important;
+}
+
+/* Hover: border only (no fill) for calendar days that are not selected or today */
+#calendarDays .calendar-day {
+  border: 1px solid transparent;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+#calendarDays .calendar-day:not(.selected):not(.today):hover {
+  border-color: #dd5900; /* same orange as selected */
+  background: transparent !important;
+  color: inherit !important;
+  cursor: pointer;
+}
+
+/* Make the Booking Summary modal slightly whiter without affecting other glass cards */
+#summaryModal .glass{
+  background: rgba(255, 255, 255, 0.632) !important; /* was ~0.34 globally */
+  border-color: rgb(255, 255, 255) !important;
+}
+
+/* === Booking Summary: value color + confirm button === */
+/* Right-hand values in the summary modal (leave labels unchanged) */
+#summaryName,
+#summaryPhone,
+#summaryService,
+#summaryDate,
+#summaryTime,
+#summaryDetails,
+#summaryAddress {
+  color: #a44302 !important;   /* brand orange */
+  text-align: right;
+  display: block;
+}
+
+/* Confirm button => green */
+#confirmBooking{
+  background-color: #22c55e !important;  /* green-500 */
+  color: #ffffff !important;
+  border-radius: 0.5rem; /* keep existing rounded look */
+  transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+#confirmBooking:hover{
+  background-color: #16a34a !important;  /* green-600 */
+}
+#confirmBooking:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.35); /* subtle green ring */
+}
+
+/* === Success Modal: slightly whiter glass + brand orange button === */
+#successModal .glass{
+  background: rgba(255, 255, 255, 0.632) !important; /* match summary modal whiteness */
+  border-color: #ffffff !important;
+}
+
+/* Continue button color => #dd5900 with subtle hover/focus */
+#closeSuccessModal{
+  background-color: #dd5900 !important;
+  color: #ffffff !important;
+  border-radius: 0.5rem;
+  transition: background-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+#closeSuccessModal:hover{
+  background-color: #c34f00 !important; /* slightly darker on hover */
+}
+#closeSuccessModal:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(221, 89, 0, 0.35);
+}
+
+/* Scale down booking page content (excluding nav bar) */
+#bookingPage {
+  --booking-scale: 0.9;               /* tweak here */
+  transform: scale(var(--booking-scale));
+  transform-origin: top left;         /* anchor to left so it stays aligned */
+  width: calc(100% / var(--booking-scale)); /* keep full layout width */
+  font-size: 0.9rem;
+}
+/* Fallback (Chrome) */
+#bookingPage { zoom: var(--booking-scale); }
+
+@media (max-width: 768px) {
+  .bg-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../img/bg-mobile.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;  
+    background-blend-mode: normal;
+  }
+}
+
+/* Disable background-attachment: fixed on mobile to prevent stutter */
+@media (max-width: 900px) {
+  #homePage .page-bg,
+  #ordersPage .page-bg,
+  #loginScreen .page-bg {
+    background-attachment: scroll !important;
+    position: absolute !important;   /* ensure it stays behind content */
+  }
+  #homePage {
+    background-attachment: scroll !important;
+  }
+}
+/* Mobile navbar logo sizing */
+@media (max-width: 640px) {
+  .nav-logo {
+    height: 95px;       /* larger logo height for better visibility */
+    max-height: 6rem;   /* increase max-height on mobile */
+  }
+}

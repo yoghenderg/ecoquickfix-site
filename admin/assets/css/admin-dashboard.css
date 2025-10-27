@@ -1,0 +1,775 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+/* ===== Admin Dashboard CSS (extracted from inline <style>) ===== */
+
+/* Reset UA margins to prevent gaps around the layout */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+:root{
+  --sidebar-w: 11rem;   /* thinner sidebar */
+  --header-blur: 16px;
+  --header-alpha: 0.55; /* glass strength */
+  --header-h: 60px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Background image for the dashboard page */
+body {
+  /* Path is relative to this CSS file (assets/css), so go up one level to assets/img */
+  background: url('../img/dashboard-bg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  overflow: hidden; /* prevent page scroll; only right pane scrolls */
+}
+
+/* Reusable utilities */
+.rounded-15 { border-radius: 15px; }
+
+.glass{
+  background: rgba(255, 255, 255, 0.439);
+  border: 1.5px solid rgba(255,255,255,0.45);
+  backdrop-filter: blur(14px) saturate(120%);
+  -webkit-backdrop-filter: blur(14px) saturate(120%);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+}
+
+/* ===== Special styling for Due summary card ===== */
+.card-due {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.card-due.active {
+  background: linear-gradient(135deg, rgba(220, 38, 38, 0.85), rgba(239, 68, 68, 0.85));
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.8);
+  color: #fff;
+}
+
+.card-due.inactive {
+  background: rgba(255, 255, 255, 0.45); /* match other glass cards */
+  border: 1.5px solid rgba(255,255,255,0.45);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+  color: #000; /* text color like normal cards */
+}
+
+
+.card-shadow {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.565),
+              0 4px 6px -2px rgba(0, 0, 0, 0.12);
+}
+
+.header-bar{
+  background: rgba(147, 147, 147, 0.342);
+  color: #fff;
+  backdrop-filter: blur(var(--header-blur)) saturate(120%);
+  -webkit-backdrop-filter: blur(var(--header-blur)) saturate(120%);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.header-inner{
+  height: 56px;                 /* thinner header */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.brand{
+  display:flex; align-items:center; gap:12px;
+}
+.brand-logo{
+  height: 36px; width: auto;    /* compact logo */
+}
+.brand-text h1{
+  font-size: 1.125rem;          /* text-18 */
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+}
+.brand-text p{
+  font-size: .875rem;
+  color: rgba(255,255,255,0.75);
+}
+.header-date{
+  font-size: .875rem;
+  color: rgba(255,255,255,0.8);
+}
+@media (min-width: 1280px){
+  .brand-logo{ height: 40px; }
+  .header-inner{ height: 60px; }
+}
+
+.sidebar-bar{
+  width: var(--sidebar-w);
+  background: rgba(83, 83, 83, 0.342);
+  color: #fff;
+  backdrop-filter: blur(var(--header-blur)) saturate(120%);
+  -webkit-backdrop-filter: blur(var(--header-blur)) saturate(120%);
+  box-shadow: 4px 0 18px rgba(0,0,0,0.06);
+  display:flex;
+  flex-direction:column;
+  position: sticky;
+  top: var(--header-h);
+  height: calc(100vh - var(--header-h));
+  overflow: hidden;
+}
+.sidebar-nav{ 
+  padding: 12px;
+  overflow-y: auto;             /* scroll inside the sidebar only if needed */
+  max-height: calc(100vh - var(--header-h) - 56px); /* leave room for footer */
+}
+.sidebar-tab{
+  display:flex; align-items:center; gap:.625rem;
+  width:100%;
+  padding:.625rem .875rem;           /* slightly taller tap target */
+  font-size: 0.85rem;
+  border-radius:12px;
+  color: rgba(255,255,255,0.90);
+  background: transparent;
+  transition: background-color .18s ease, color .18s ease, transform .18s ease;
+}
+.sidebar-tab svg {
+  width: 18px;
+  height: 18px;
+}
+
+.sidebar-tab:not(.active):hover{
+  background: rgba(255,255,255,0.10); /* subtle glassy hover */
+  color:#fff;
+}
+
+.sidebar-tab:focus-visible{
+  outline: 2px solid rgba(255,255,255,0.35);
+  outline-offset: 2px;
+}
+
+.sidebar-tab.active{
+  background: #550000;               /* solid maroon when selected */
+  color:#fff;
+  box-shadow: 0 6px 14px rgba(0,0,0,.18) inset, 0 4px 14px rgba(0,0,0,.08);
+}
+
+/* Keep the selected pill maroon even when hovered/focused */
+.sidebar-tab.active:hover,
+.sidebar-tab.active:focus,
+.sidebar-tab.active:focus-visible{
+  background: #550000;               /* solid maroon when selected */
+  color:#fff;
+  box-shadow: 0 6px 14px rgba(0,0,0,.18) inset, 0 4px 14px rgba(0,0,0,.08);
+}
+
+.sidebar-footer{
+  margin-top: auto;
+  padding: 12px;
+  padding-bottom: 12px;
+  background: transparent;
+  position: sticky;
+  bottom: 0;
+}
+
+.main-wrap{
+  padding: 1.25rem;
+}
+@media (min-width: 1024px){
+  .main-wrap{ padding: 1.5rem; }
+}
+
+.main-scroll{
+  overflow-y: auto;
+  height: calc(100vh - var(--header-h));
+}
+.main-scroll { scroll-behavior: smooth; }
+
+.logout-pill {
+  background: rgba(123, 74, 74, 0.806);
+  border: 1.5px solid rgba(255, 255, 255, 0.719);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: .85rem;
+  font-weight: 500;
+  color: #fff;
+  transition: background-color .2s ease, transform .2s ease;
+
+  
+}
+.logout-pill:hover {
+  background-color: #550000 !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+}
+
+.header-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Donut card helpers */
+.legend-list { list-style: none; padding: 0; margin: 0; }
+.legend-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.legend-left { display:flex; align-items:center; gap:10px; }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; border:1px solid rgba(0,0,0,0.1); }
+.legend-name { font-weight:600; color:#111827; }
+.legend-pct { color:#111827; font-weight:600; }
+.legend-qty { color:#6B7280; font-size:.85rem; }
+
+/* Donut chart container styling */
+#serviceDonut {
+  filter: drop-shadow(0 6px 12px rgba(0,0,0,0.15));
+}
+
+.glass-donut {
+  background: rgba(255, 255, 255, 0.023);
+  border: 1px solid rgba(255, 255, 255, 0.601);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-radius: 20px;
+  padding: 1rem;
+  width: 350px !important;
+  height: 350px !important;
+}
+
+/* Improve spacing and hierarchy for glass cards */
+.glass {
+  border-radius: 18px;
+  padding: 1.5rem;
+}
+
+.glass h3, 
+.glass h4 {
+  margin-bottom: 1rem;
+}
+
+.glass .legend-list {
+  margin-top: 0.5rem;
+}
+
+.glass .legend-item {
+  padding: 0.35rem 0;
+}
+
+/* Services of the Month container adjustments */
+#dashboardContent > .glass {
+  margin-bottom: 2rem;
+}
+
+/* Subcontainer refinement */
+.glass-donut {
+  margin: auto;
+}
+
+#serviceLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ===== Services card layout polish (UX/HCI spacing) ===== */
+
+/* Outer glass card that contains the donut and the legend */
+#dashboardContent > .glass:has(#serviceDonut) {
+  padding: 16px 20px !important;  /* tighter padding */
+}
+
+/* Header row spacing */
+#dashboardContent > .glass:has(#serviceDonut) > .flex {
+  margin-bottom: 10px !important;
+}
+
+/* Two-column area (donut | legend) */
+#dashboardContent > .glass:has(#serviceDonut) .grid {
+  gap: 16px !important; /* moderate gap */
+}
+
+/* Donut container */
+.glass-donut {
+  padding: 12px !important;
+  border-radius: 18px !important;
+  margin: auto;
+}
+
+/* Legend container */
+#serviceLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 14px 16px !important;
+}
+
+/* Legend list spacing */
+.legend-list {
+  row-gap: 8px !important;
+}
+.legend-item {
+  padding: 6px 2px !important;
+}
+.legend-left {
+  gap: 8px !important;
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+}
+.legend-pct {
+  min-width: 48px;
+  text-align: right;
+  font-weight: 700;
+}
+
+/* Compact controls */
+#serviceMonth {
+  height: 32px;
+  padding: 4px 10px;
+}
+#serviceRefresh,
+#serviceExport {
+  padding: 6px 12px;
+  font-weight: 600;
+}
+
+/* Responsive stack */
+@media (max-width: 1024px) {
+  #dashboardContent > .glass:has(#serviceDonut) .grid {
+    gap: 12px !important;
+  }
+  #serviceLegend {
+    padding: 12px !important;
+  }
+}
+
+/* Shadows for donut and legend subcontainers */
+.donut-wrapper .glass-donut {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25),
+              inset 0 4px 8px rgba(255,255,255,0.15);
+}
+
+.legend-wrapper .glass {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25),
+              inset 0 4px 8px rgba(255,255,255,0.1);
+  border-radius: 16px;
+}
+
+/* Fine control movement for donut and legend wrappers */
+.donut-wrapper, .legend-wrapper {
+  position: relative;
+}
+
+.donut-move {
+  transform: translateX(var(--donut-x, 0px));
+  transition: transform 0.2s ease;
+}
+
+.legend-move {
+  transform: translateX(var(--legend-x, 0px));
+  transition: transform 0.2s ease;
+}
+
+/* Default variables */
+:root {
+  --donut-x: 0px;
+  --legend-x: -66px;
+}
+
+/* Scale down only the main content area, not sidebar or nav */
+.main-wrap {
+  transform: scale(0.9);
+  transform-origin: top center;
+  font-size: 0.9rem; /* reduce overall text size */
+}
+/* Ensure dropdown text is visible on glass background */
+#serviceMonth {
+  color: #fff !important;
+  background-color: rgba(0, 0, 0, 0.25); /* subtle dark bg so text pops */
+}
+
+/* Force brand text to remain visible in sidebar */
+.brand-text h1,
+.brand-text p {
+  color: #fff !important;
+}
+
+/* Filter pill design for search and dropdowns */
+.filter-pill {
+  background: rgba(123, 74, 74, 0.806);
+  border: 1.5px solid rgba(255,255,255,0.719);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: .85rem;
+  font-weight: 500;
+  color: #fff;
+  transition: background-color .2s ease, transform .2s ease;
+}
+
+.filter-pill:hover {
+  background-color: #550000 !important;
+  color: #fff !important;
+}
+
+/* Ensure select dropdowns behave correctly */
+/* Custom arrow only for select filter pills */
+select.filter-pill {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 2rem; /* space for arrow */
+  background: rgba(123, 74, 74, 0.806)
+    url("data:image/svg+xml;utf8,<svg fill='white' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>")
+    no-repeat right 0.75rem center/1rem !important;
+  cursor: pointer;
+}
+
+select.filter-pill:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.35);
+  background-color: rgba(123, 74, 74, 0.9); /* consistent focus color */
+}
+#bookingsContent table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+
+  border: none;
+}
+
+#bookingsContent thead {
+  background: rgba(255,255,255,0.25);
+  color: #000;
+  text-align: left;
+  border: none;
+}
+
+#bookingsContent th,
+#bookingsContent td {
+  padding: 12px 16px;
+  text-align: left;
+  vertical-align: middle;
+  color: #000; /* black text */
+  border: none !important;
+}
+
+/* ===== Service Pills inside Bookings Table ===== */
+
+#bookingsContent td:nth-child(4) {
+  display: flex;
+  flex-direction: column; /* stack pills vertically */
+  gap: 6px; /* spacing between pills */
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+#bookingsContent td:nth-child(4) .service-pill {
+  display: block;
+  margin: 0; /* remove side margins */
+  width: fit-content; /* keep pill shape tight */
+}
+
+
+/* Smoother hover effect for booking table rows */
+#bookingsContent tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  background: none; /* Remove default background to allow zebra striping */
+}
+
+/* Zebra striping for booking table rows */
+#bookingsContent tbody tr:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.7); /* white glass */
+}
+#bookingsContent tbody tr:nth-child(even) {
+  background: rgba(243, 244, 246, 0.7); /* light gray glass */
+}
+
+#bookingsContent tbody tr:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  cursor: pointer;
+}
+
+/* Align all columns consistently */
+#bookingsContent th:nth-child(1),
+#bookingsContent td:nth-child(1) {
+  text-align: left; /* Customer */
+}
+#bookingsContent th:nth-child(2),
+#bookingsContent td:nth-child(2) {
+  text-align: center; /* Date & Time */
+}
+#bookingsContent th:nth-child(3),
+#bookingsContent td:nth-child(3) {
+  text-align: left; /* Service */
+}
+#bookingsContent th:nth-child(4),
+#bookingsContent td:nth-child(4) {
+  text-align: left; /* Address */
+}
+#bookingsContent th:nth-child(5),
+#bookingsContent td:nth-child(5) {
+  text-align: center; /* Actions */
+}
+#bookingsContent th:nth-child(6),
+#bookingsContent td:nth-child(6) {
+  text-align: center; /* Status */
+}
+
+/* Fix width for Status column */
+#bookingsContent th:nth-child(6),
+#bookingsContent td:nth-child(6) {
+  width: 140px;
+}
+
+#bookingsContent td:nth-child(6) span {
+  display: inline-block;
+  min-width: 100px;
+  text-align: center;
+  padding: 6px 12px;
+}
+
+/* ===== Booking Details Modal Styling ===== */
+#bookingModal .glass {
+  background: rgba(255, 255, 255, 0.675); /* whiter effect */
+  border: 1.5px solid rgba(255, 255, 255, 0.985);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  color: #000000d4; /* black text */
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15), inset 0 4px 8px rgba(255,255,255,0.1);
+}
+
+/* Booking Details Modal content spacing */
+#bookingDetailsContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* spacing between each detail row */
+}
+
+#bookingDetailsContent p,
+#bookingDetailsContent div {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+#bookingDetailsContent strong {
+  display: inline-block;
+  min-width: 100px; /* align labels neatly */
+  font-weight: 600;
+  color: #111;
+}
+
+/* ===== Reusable Status Pills ===== */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 100px;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  color: #fff;
+  font-weight: 500;
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+}
+.status-completed {
+  background: rgba(74, 222, 128, 0.7); /* light green glass */
+}
+.status-cancelled {
+  background: rgba(248, 113, 113, 0.7); /* light red glass */
+}
+.status-pending {
+  background: rgba(250, 204, 21, 0.7); /* light yellow glass */
+  color: #000; /* black text for contrast */
+}
+.status-locked {
+  background: rgba(209, 213, 219, 0.8); /* light grey glass */
+  color: #374151; /* dark gray text */
+  font-style: italic;
+  font-size: 0.7rem;
+  padding: 2px 10px;
+  border-radius: 9999px;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* ===== Animations ===== */
+
+/* Modal fade & scale */
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+@keyframes modalFadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.9); }
+}
+
+.modal-open {
+  animation: modalFadeIn 0.25s ease forwards;
+}
+.modal-close {
+  animation: modalFadeOut 0.2s ease forwards;
+}
+
+/* Dashboard card pop-up */
+@keyframes cardPop {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.card-animate {
+  animation: cardPop 0.4s ease forwards;
+}
+
+
+/* ===== Dashboard Card Hover Tilt Effect ===== */
+.card-tilt {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  will-change: transform;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-tilt::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255,255,255,0.25), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.card-tilt:hover::after {
+  opacity: 1;
+}
+
+/* ===== Action Buttons (Pill Shape) ===== */
+.action-btn {
+  padding: 6px 16px;
+  border-radius: 9999px; /* pill shape */
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1.5px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.action-complete {
+  background: #22c55e; /* green */
+  color: #fff;
+  border-color: #16a34a;
+}
+.action-complete:hover {
+  background: #16a34a;
+}
+
+.action-cancel {
+  background: #ef4444; /* red */
+  color: #fff;
+  border-color: #dc2626;
+}
+.action-cancel:hover {
+  background: #dc2626;
+}
+/* Sticky Customer column */
+#bookingsContent th:first-child,
+#bookingsContent td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  box-shadow: 2px 0 6px rgba(0,0,0,0.08);
+}
+.legend-glass {
+  background: rgba(255, 255, 255, 0.735); /* slightly brighter glass for legend */
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25),
+              inset 0 4px 8px rgba(255,255,255,0.1);
+  padding: 1rem;
+}
+
+/* ===== Due Tag Inline Badge (for overdue pending) ===== */
+.due-tag {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #dc2626;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+#bookingsContent td:first-child {
+  position: relative;
+}
+
+/* ===== Pagination Controls Styles ===== */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 1.5rem 0 0.5rem 0;
+  padding-bottom: 4px;
+}
+.pagination-btn {
+  background: rgba(123, 74, 74, 0.77);
+  border: 1.5px solid rgba(255,255,255,0.719);
+  backdrop-filter: blur(10px) saturate(120%);
+  -webkit-backdrop-filter: blur(10px) saturate(120%);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 9999px;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: background-color .18s, color .18s, transform .15s;
+  outline: none;
+}
+.pagination-btn:not(:disabled):hover,
+.pagination-btn:not(:disabled):focus {
+  background: #550000 !important;
+  color: #fff !important;
+  transform: translateY(-2px) scale(1.05);
+}
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: rgba(123,74,74,0.35);
+}
+.pagination-btn.active,
+.pagination-btn[aria-current="page"] {
+  background: #550000 !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12) inset;
+  font-weight: 700;
+  border-color: #fff;
+}
