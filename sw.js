@@ -44,6 +44,11 @@ self.addEventListener("fetch", (e) => {
   // HARD-IGNORE admin so PWA doesn't touch it
   if (url.pathname.startsWith("/admin")) return;
 
+  // NEW: Ignore Firestore and Firebase Auth API calls to prevent caching issues
+  if (url.origin.includes("firestore.googleapis.com") || url.origin.includes("identitytoolkit.googleapis.com")) {
+    return; // Let network handle it fully, no caching
+  }
+
   // Determine request type
   const accept = req.headers.get("accept") || "";
   const isHTML = accept.includes("text/html");
