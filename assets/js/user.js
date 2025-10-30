@@ -240,7 +240,13 @@ function selectDate(date, element) {
     const timeInput = document.getElementById('selectedTime');
     if (timeInput) timeInput.value = '';
 
-    updateTimeSlots(localIso);
+    if (/Mobi|Android/i.test(navigator.userAgent)) {
+      // Mobile: delay to ensure UI refreshes immediately on first tap
+      setTimeout(() => updateTimeSlots(localIso), 0);
+    } else {
+      // Desktop: normal immediate update
+      updateTimeSlots(localIso);
+    }
 }
 
 function generateTimeSlots() {
