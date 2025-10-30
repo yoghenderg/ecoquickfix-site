@@ -1,3 +1,15 @@
+// Restrict admin dashboard on mobile devices
+if (window.innerWidth < 1024) {
+  document.body.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:center;height:100vh;text-align:center;padding:20px;">
+      <div>
+        <h2>📱 Mobile Access Restricted</h2>
+        <p>The admin dashboard is not available on mobile devices.<br>
+        Please access it from a desktop or laptop.</p>
+      </div>
+    </div>
+  `;
+}
 // Export Bookings CSV button handler
 const bookingExportBtn = document.getElementById("bookingExport");
 if (bookingExportBtn) {
