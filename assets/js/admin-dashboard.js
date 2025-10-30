@@ -635,8 +635,16 @@ function applyBookingsFilter() {
       ? booking.services.join(" ").toLowerCase()
       : (booking.service || "").toLowerCase();
     const status = (booking.status || "pending").toLowerCase();
+    const address = (booking.address || "").toLowerCase();
+    const phone = (booking.phone || "").toLowerCase();
+    const remarks = (booking.remarks || "").toLowerCase();
 
-    const matchesSearch = name.includes(searchText) || services.includes(searchText);
+    const matchesSearch =
+      name.includes(searchText) ||
+      services.includes(searchText) ||
+      address.includes(searchText) ||
+      phone.includes(searchText) ||
+      remarks.includes(searchText);
     const matchesStatus = selectedStatus === "" || status === selectedStatus;
     return matchesSearch && matchesStatus;
   });
