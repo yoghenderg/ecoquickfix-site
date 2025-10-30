@@ -1,6 +1,6 @@
-// ---- EcoQuickFix Service Worker (v2) ----
-const STATIC_CACHE = "ecoqf-static-v2";
-const RUNTIME_CACHE = "ecoqf-runtime-v2";
+// ---- EcoQuickFix Service Worker (v3) ----
+const STATIC_CACHE = "ecoqf-static-v3";
+const RUNTIME_CACHE = "ecoqf-runtime-v3";
 
 const STATIC_ASSETS = [
   "/",                 // home
@@ -14,6 +14,7 @@ const STATIC_ASSETS = [
   "/assets/icons/icon-192.png",
   "/assets/icons/icon-512.png",
   "/assets/icons/maskable-512.png"
+  ,"/assets/img/placeholder.png"
 ];
 
 self.addEventListener("install", (e) => {
@@ -74,6 +75,11 @@ self.addEventListener("fetch", (e) => {
         const copy = res.clone();
         caches.open(RUNTIME_CACHE).then(c => c.put(req, copy));
         return res;
+      }).catch(() => {
+        // fallback for images if offline and not cached
+        if (req.destination === "image") {
+          return caches.match("/assets/img/placeholder.png");
+        }
       });
     })
   );
