@@ -193,7 +193,9 @@ function updateCalendarDisplay() {
             dayElement.className += ' text-gray-400 cursor-not-allowed';
         } else {
             dayElement.className += ' text-gray-900';
-            dayElement.addEventListener('click', () => selectDate(date, dayElement));
+            const handler = () => selectDate(date, dayElement);
+            dayElement.addEventListener('click', handler);
+            dayElement.addEventListener('touchend', handler);
         }
 
         // Add dataset flag for today and tint only today's cell
